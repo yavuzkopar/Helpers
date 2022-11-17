@@ -3,23 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using Yavuz.Helpers;
 
-public class Test : MonoBehaviour
+public class Test : MonoBehaviour, IAction
 {
     Rigidbody rb;
+    CommandDeneme command;
     void Start()
     {
-     
+        command = new CommandDeneme();
         rb = GetComponent<Rigidbody>();
     }
     [SerializeField] Transform pik, pik2;
     [SerializeField] float speed;
     [SerializeField] bool complate;
-   
+
     void Update()
     {
-         
-        
-        
         if (Input.GetMouseButtonDown(0))
         {
             //Utils.HitInfo();
@@ -40,16 +38,33 @@ public class Test : MonoBehaviour
             //GameObject go = Helpers.CreateTextMesh("alo", 100);
             //go.transform.localScale = Vector3.one * 20;
             //Vector3 a = new Vector3(2.6f,3,5);
-            transform.Mover(pik, pik2,1f,complate);
-            
+
+            command.Execute(this);
             
         }
-       
+        if (Input.GetMouseButtonDown(1))
+        {
+            command.Undo();
+        }
+
         //    Debug.Log("front : " +pik.IsInFrontOf(transform));
         //Debug.Log("Top : " +pik.IsOnTopOf(transform));
         //Debug.Log("Right : " +pik.IsInRightOf(transform));
         //transform.LookSmoothly(pik.position, 5);
     }
-    
+    void Dene()
+    {
+        transform.Mover(pik, pik2, 1f, complate);
 
+    }
+    [SerializeField] int yer;
+    public void Execute()
+    {
+        yer++;
+    }
+
+    public void Undo()
+    {
+        yer--;
+    }
 }

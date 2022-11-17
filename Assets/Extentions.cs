@@ -85,16 +85,23 @@ public static class Extentions
     // scaleIn one way
 
     
-    public static void ChangeLayerTo(this GameObject go,string layerName)
+    public static void SetLayer(this GameObject go,string layerName)
     {
-        int LayerIgnoreRaycast = LayerMask.NameToLayer(layerName);
-        go.layer = LayerIgnoreRaycast;
+        int targetLayer = LayerMask.NameToLayer(layerName);
+        go.layer = targetLayer;
     }
     public static void LookSmoothly(this Transform transform, Vector3 point,float speed)
     {
         Vector3 lookPos = point - transform.position;
         Quaternion look = Quaternion.LookRotation(lookPos);
         transform.rotation = Quaternion.Slerp(transform.rotation, look, Time.deltaTime * speed);
+    }
+    public static void DestroyAllChildren(this Transform t)
+    {
+        foreach (Transform item in t)
+        {
+            Object.Destroy(item.gameObject);
+        }
     }
 }
 

@@ -27,7 +27,7 @@ namespace Yavuz.Helpers
             Physics.Raycast(ray, out RaycastHit hit, maxDistance);
             return hit;
         }
-        public static RaycastHit HitInfo(float maxDistance, LayerMask layerMask)
+        public static RaycastHit HitInfo(float maxDistance , LayerMask layerMask)
         {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -120,13 +120,7 @@ namespace Yavuz.Helpers
 
             return bestTarget;
         }
-        public static void DestroyAllChildren(this Transform t)
-        {
-            foreach (Transform item in t)
-            {
-                Object.Destroy(item.gameObject);
-            }
-        }
+        
         // Use instead of WaitForSeconds for optimization
         public static readonly Dictionary<float, WaitForSeconds> WaitDictionary = new Dictionary<float, WaitForSeconds>();
         public static WaitForSeconds GetWait(float time)
@@ -146,19 +140,7 @@ namespace Yavuz.Helpers
 
             enumer.StartCoroutine(enumer.LerpedMove(mid, last, speed,complate));
         }
-        //public static void Mover(this Transform tr, Transform mid, Transform last, float speed, bool complate)
-        //{
-        //    if (tr.gameObject.TryGetComponent(out Enumer enumer1))
-        //    {
-
-        //        Object.Destroy(enumer1);
-        //    }
-        //    Enumer enumer = tr.gameObject.AddComponent<Enumer>();
-
-        //    enumer.StartCoroutine(enumer.LerpedMove(mid, last, speed,true));
-        //}
     }
-
 }
 namespace Yavuz.Helpers.Courutines
 {
@@ -167,7 +149,6 @@ namespace Yavuz.Helpers.Courutines
         public IEnumerator LerpedMove(Transform mid, Transform last, float speed, bool complate)
         {
             float t = 0f;
-            Debug.Log(gameObject.name);
             Vector3 firstPosition = transform.position;
             Vector3 normalPoint = (firstPosition + last.position) / 2;
             Vector3 midPlus = mid.position - normalPoint;
@@ -182,7 +163,6 @@ namespace Yavuz.Helpers.Courutines
                 Vector3 b = Vector3.Lerp(midPlus, last.position, t);
                 Vector3 c = Vector3.Lerp(a, b, t);
                 t += Time.deltaTime * (1 / speed);
-                Debug.Log(c);
                 transform.position = c;
                 yield return Helpers.GetWait(Time.deltaTime);
             }
